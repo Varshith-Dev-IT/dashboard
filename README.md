@@ -79,12 +79,34 @@ dashboard/
 
 ## GitHub Pages Deployment
 
-To deploy this application to GitHub Pages:
+### Automatic Deployment (Recommended)
 
-1. **Update the base path in `vite.config.js`**:
-   - If your repository is `username.github.io` (user/organization page), set `base: '/'`
-   - If your repository is `username.github.io/repo-name`, set `base: '/repo-name/'`
-   - Example: If repo is named "dashboard", set `base: '/dashboard/'`
+This repository includes a GitHub Actions workflow that automatically deploys to GitHub Pages when you push to the `main` or `master` branch.
+
+1. **Enable GitHub Pages**:
+   - Go to your repository Settings → Pages
+   - Under "Source", select "GitHub Actions"
+   - The workflow will automatically detect your repository name and set the correct base path
+
+2. **Push to main branch**:
+   ```bash
+   git add .
+   git commit -m "Deploy to GitHub Pages"
+   git push origin main
+   ```
+
+3. **Wait for deployment**: The GitHub Actions workflow will build and deploy your site automatically.
+
+### Manual Deployment
+
+If you prefer to deploy manually:
+
+1. **Update the base path** (if needed):
+   - If your repository is `username.github.io` (user/org page), the default `base: '/'` is correct
+   - If your repository is `username.github.io/repo-name`, update `vite.config.js`:
+     ```js
+     const base = process.env.BASE_PATH || '/repo-name/'
+     ```
 
 2. **Build the project**:
    ```bash
@@ -94,9 +116,9 @@ To deploy this application to GitHub Pages:
 3. **Deploy to GitHub Pages**:
    - Go to your repository Settings → Pages
    - Set Source to "Deploy from a branch"
-   - Select branch: `gh-pages` (or `main` if deploying from root)
-   - Select folder: `/ (root)` or `/docs` if you want to use the docs folder
-   - If using `gh-pages` branch, push the `dist` folder contents to that branch:
+   - Select branch: `gh-pages` (create it if it doesn't exist)
+   - Select folder: `/ (root)`
+   - Copy the contents of the `dist` folder to the `gh-pages` branch:
      ```bash
      npm run build
      cd dist
@@ -106,7 +128,11 @@ To deploy this application to GitHub Pages:
      git push -f git@github.com:username/repo-name.git main:gh-pages
      ```
 
-4. **Important**: The `404.html` file is required for client-side routing to work on GitHub Pages. It redirects all 404 errors to `index.html`, allowing React Router to handle the routing.
+### Important Notes
+
+- The `404.html` file in the `public` folder is required for client-side routing to work on GitHub Pages. It redirects all 404 errors to `index.html`, allowing React Router to handle the routing.
+- All asset paths (images, GeoJSON files) are configured to work with the base path automatically.
+- If your site still doesn't work, check the browser console for errors and verify the base path matches your repository structure.
 
 ## Note
 

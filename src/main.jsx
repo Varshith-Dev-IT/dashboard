@@ -6,12 +6,23 @@ import App from './App'
 import './index.css'
 
 // Handle GitHub Pages redirect from 404.html
-// This code restores the original URL from the query string format
+// This code restores the original URL from sessionStorage
 (function() {
-  var redirect = sessionStorage.redirect;
-  delete sessionStorage.redirect;
-  if (redirect && redirect !== location.href) {
-    history.replaceState(null, null, redirect);
+  var redirectInfo = sessionStorage.getItem('ghp_redirect');
+  if (redirectInfo) {
+    try {
+      var info = JSON.parse(redirectInfo);
+      sessionStorage.removeItem('ghp_redirect');
+      var newPath = info.path || '';
+      var newSearch = info.search ? '?' + info.search : '';
+      var newHash = info.hash || '';
+      var fullPath = (newPath ? '/' + newPath : '') + newSearch + newHash;
+      if (fullPath && fullPath !== location.pathname + location.search + location.hash) {
+        history.replaceState(null, null, fullPath);
+      }
+    } catch (e) {
+      console.error('Error parsing redirect info:', e);
+    }
   }
 })();
 

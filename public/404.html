@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting...</title>
+    <script>
+      // GitHub Pages 404 redirect for Single Page Apps
+      // This redirects all 404s to index.html, allowing React Router to handle routing
+      (function() {
+        var pathSegmentsToKeep = 0;
+        var l = window.location;
+        var basePath = l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/');
+        if (basePath !== '/') basePath = basePath + '/';
+        
+        // Store the original pathname
+        var path = l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/');
+        var search = l.search.slice(1);
+        var hash = l.hash;
+        
+        // Redirect to index.html with the path info stored
+        var redirect = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + 
+          basePath + 'index.html' + hash;
+        
+        // Store redirect info in sessionStorage
+        sessionStorage.setItem('ghp_redirect', JSON.stringify({
+          path: path,
+          search: search,
+          hash: hash
+        }));
+        
+        window.location.replace(redirect);
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>

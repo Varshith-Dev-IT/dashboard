@@ -55,7 +55,7 @@ function App() {
           </div>
         </div>
         <div className="nav-logo">
-          <img src="./logo.png" alt="Logo" className="logo-image" />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Logo" className="logo-image" />
           <p className="logo-text">Powered by Geo-Intel Lab, IITTNIF, Tirupati</p>
         </div>
       </nav>

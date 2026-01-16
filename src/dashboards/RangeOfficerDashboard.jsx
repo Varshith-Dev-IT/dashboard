@@ -44,7 +44,10 @@ const RangeOfficerDashboard = () => {
 
   // Load GeoJSON boundary
   useEffect(() => {
-    fetch('/boundary_nallamalla_geojson.geojson')
+    // Use import.meta.env.BASE_URL for proper base path support
+    const baseUrl = import.meta.env.BASE_URL || '/'
+    const geojsonPath = `${baseUrl}boundary_nallamalla_geojson.geojson`.replace(/\/\//g, '/')
+    fetch(geojsonPath)
       .then(response => response.json())
       .then(data => {
         setBoundaryData(data)
