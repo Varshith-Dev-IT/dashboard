@@ -77,6 +77,37 @@ dashboard/
 └── vite.config.js
 ```
 
+## GitHub Pages Deployment
+
+To deploy this application to GitHub Pages:
+
+1. **Update the base path in `vite.config.js`**:
+   - If your repository is `username.github.io` (user/organization page), set `base: '/'`
+   - If your repository is `username.github.io/repo-name`, set `base: '/repo-name/'`
+   - Example: If repo is named "dashboard", set `base: '/dashboard/'`
+
+2. **Build the project**:
+   ```bash
+   npm run build
+   ```
+
+3. **Deploy to GitHub Pages**:
+   - Go to your repository Settings → Pages
+   - Set Source to "Deploy from a branch"
+   - Select branch: `gh-pages` (or `main` if deploying from root)
+   - Select folder: `/ (root)` or `/docs` if you want to use the docs folder
+   - If using `gh-pages` branch, push the `dist` folder contents to that branch:
+     ```bash
+     npm run build
+     cd dist
+     git init
+     git add -A
+     git commit -m "Deploy to GitHub Pages"
+     git push -f git@github.com:username/repo-name.git main:gh-pages
+     ```
+
+4. **Important**: The `404.html` file is required for client-side routing to work on GitHub Pages. It redirects all 404 errors to `index.html`, allowing React Router to handle the routing.
+
 ## Note
 
 This is a static dashboard with mock data for demonstration purposes. In a production environment, this would integrate with APIs to fetch real-time satellite imagery data and encroachment detection results.
